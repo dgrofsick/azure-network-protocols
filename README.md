@@ -57,7 +57,80 @@ In this tutorial, we observe various network traffic to and from Azure Virtual M
 
 <br />
 
+<h2>Observing Traffic</h2>
 
+<h3>ICMP</h3>
 
+- Use <b>Remote Desktop</b> to connect to your Windows 10 virtual machine
+  -  Locate <b>vm1's public ip address</b> and copy it
+  -  Open <b>Remote Desktop</b> by typing it into your <b>Windows search bar</b> and opening the app
+  -  Paste <b>vm1's ip address</b> and use the log in settings created for vm1 to connect
+ 
+  ![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/1db301f6-8b4f-4db9-963f-0cdbe6b0ee64)
 
+<br />
+
+- Within your Windows 10 Virtual Machine, <b>Install Wireshark</b>
+  -Open your default web browser application and use https://www.wireshark.org/download.html to download the <b>Windows x64 Installer for Wireshark</b>
+<b>Note: This free application will allow us to monitor all forms traffic needed for thsi tutorial</b>
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/9f3a1af7-c51c-4b2e-830f-15592afa0c5e)
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/9e9ab8d2-7991-4435-9662-482807ed2293)
+
+<br />
+
+- Open Wireshark and filter for ICMP traffic only
+  -  To start this process, locate the 'blue fin' icon in top left corner of the app and click it.  This will begin the monioring process for all available traffic
+  -  Next, locate the <b>filter search bar</b> and type <b>'icmp'</b>
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/0270dadd-60ea-47ca-a375-9aaca7b9e988)
+
+<br />
+
+- Retrieve the private IP address of the Ubuntu VM and attempt to ping it from within the Windows 10 VM
+  -  Once the ip address has been located and copied, navigate back to vm1, open <b>Command Prompt<b>, and use ping (ip address)
+  -  After pinging vm2, attempt to ping a <b>public website such www.google.com</b>
+  -  Observe the traffic results you created within Wireshark
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/5ac03fdc-15d1-4e49-819d-6806d64983a7)
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/4e9c04a5-d4a6-48f8-b80d-10d983263055)
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/0b4a080f-6636-4765-ba03-46aed37dd3a1)
+
+<br />
+
+<h4>ICMP Network Security Group Test</h4>
+
+- Initiate a <b>perpetual/non-stop ping</b> from your Windows 10 VM to your Ubuntu VM by using <b>ping -t</b> 
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/ea85f372-4a4e-4837-b204-50ebb3e5f133)
+ 
+ <br />
+
+- Open the Network Security Group your Ubuntu VM is using and disable incoming (inbound) ICMP traffic
+  -  To do this navigate to Azure click on vm2 and click on <b>Network settings</b> on the left
+  -  Locate the <b>nsg link (network security group)</b> and click <b>Network Security Rules</b> on the left
+  -  Click <b>+ Add</b> and you see a new window pop up on the right side
+  -  Select <b>ICMP</b> and choose the <b>Deny</b> option below.
+  -  Notice an entry box to set a Priority level.  Each rule has a priority level that determines which rules activate before others, in this case SSH currently having the highest priortity of 300.
+  -  Set the ICMP rule's priority to <b>any number that comes before 300, i.e. 299</b> and confirm with <b>Add</b>
+  -  Refresh the vm if needed and observe the changes made back in vm1's Wireshark application.
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/f7afdd6d-2a7d-4d60-8181-d17fbacde85c)
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/56b945b4-e8ad-4490-a19a-99363794af79)
+
+<br />
+
+- Re-enable ICMP traffic for the Network Security Group your Ubuntu VM is using
+- Once again take notice of the changes made within Wireshark and Command Prompt
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/a5076eef-6e61-4eba-a558-d1f4fe3d2929)
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/fda56e1b-4896-436f-a330-d7a07bbbddab)
+
+<br />
+
+<h3>SSH</h3>
+
+- Back in Wireshark, filter for SSH traffic only
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/95ebca18-f8a8-442d-879b-be3f48151a7d)
 
