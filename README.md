@@ -122,6 +122,7 @@ In this tutorial, we observe various network traffic to and from Azure Virtual M
 
 - Re-enable ICMP traffic for the Network Security Group your Ubuntu VM is using
 - Once again take notice of the changes made within Wireshark and Command Prompt
+- End your ping operation in Command prompt with <b>ctrl+C</b>
 
 ![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/a5076eef-6e61-4eba-a558-d1f4fe3d2929)
 ![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/fda56e1b-4896-436f-a330-d7a07bbbddab)
@@ -134,3 +135,62 @@ In this tutorial, we observe various network traffic to and from Azure Virtual M
 
 ![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/95ebca18-f8a8-442d-879b-be3f48151a7d)
 
+<br />
+
+- From your Windows 10 VM, “SSH into” your Ubuntu Virtual Machine (via its private IP address)
+  -  Within Command Prompt, type <b>ssh vmuser(vm2's private ip address)</b> and hit enter
+  -  A prompt will request vm2's <b>log in password</b>.  You will not visually see the password text being entered, but continue to type it in to confirm ssh connection.
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/7520a43b-cd2f-4734-b38b-c8d618f9514d)
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/0042c262-b35d-4898-8724-de574964e4e9)
+
+<br />
+
+- Type commands (username, pwd, etc) into the linux SSH connection and observe SSH traffic spam in WireShark
+- Exit the SSH connection by typing <b>‘exit’ and pressing [Enter]</b>
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/24aa1abb-570a-42fd-aa49-5b9933cc2b07)
+
+<br />
+
+<h3>DHCP</h3>
+
+- Back in Wireshark, filter for <b>DHCP</b> traffic only
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/a0782bbe-403b-466c-838d-ed007b98a5ea)
+
+<br />
+
+- From your Windows 10 VM, attempt to issue your VM a new IP address from the command line <b>(ipconfig /renew)</b>
+- Observe the DHCP traffic appearing in WireShark
+
+<b>Note: Within Azure, there is a dhcp server active that should initiate the ip renewel process.</b>
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/f236769e-831e-4759-abe6-c12dce6bf4fc)
+
+<br />
+
+<h3>DNS</h3>
+
+- Back in Wireshark, filter for DNS traffic only
+- From your Windows 10 VM within a command line, use <b></b>nslookup</b> to see what google.com and disney.com’s IP addresses are
+- Observe the DNS traffic being show in WireShark
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/0240f999-cfaa-48a0-ba20-4e55d12fa1f4)
+
+<br />
+
+<h3>RDP</h3>
+
+- Back in Wireshark, filter for <b>RDP traffic only ( may have to type: tcp.port == 3389 for the filter to apply)</b>
+  - Oserve the immediate non-stop spam of traffic.  This is because of RDP's behavior to live stream what is on screen at all times
+
+![image](https://github.com/dgrofsick/azure-network-protocols/assets/148154704/84883105-79a3-4f38-a870-54d2c820d019)
+
+<br />
+
+<h2>Resource Cleanup</h2>
+
+- Close your Remote Desktop connection
+- Delete the Resource Group(s) created at the beginning of this turtorial, including the Network Watcher
+- Verify Resource Group Deletion
